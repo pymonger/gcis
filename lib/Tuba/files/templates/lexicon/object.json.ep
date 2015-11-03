@@ -1,0 +1,22 @@
+% use Mojo::JSON;
+% #$c->app->log->debug("lexicon: " . dumper($lexicon));
+% my @contexts = $lexicon->contexts;
+% my @ctxs;
+% for my $context (sort @contexts) {
+%   my %tmp_hash;
+%   $tmp_hash{'name'} = $context;
+%   $tmp_hash{'uri'} = url_for('lexicon_terms', { context => $context, lexicon_identifier => $lexicon->identifier });
+%   $tmp_hash{'href'} = $tmp_hash{'uri'}->clone->to_abs;
+%   push @ctxs, \%tmp_hash;
+% }
+<%== Mojo::JSON::encode_json({
+    #cited_by        => $lexicon->cited_by,
+    href            => obj_uri_for($lexicon)->clone->to_abs,
+    uri             => obj_uri_for($lexicon),
+    url             => $lexicon->url,
+    identifier      => $lexicon->identifier,
+    description     => $lexicon->description,
+    contexts        => \@ctxs
+   });
+%>
+

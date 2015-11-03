@@ -1,0 +1,21 @@
+% use YAML qw/Dump/;
+% #$c->app->log->debug("lexicon: " . dumper($lexicon));
+% my @contexts = $lexicon->contexts;
+% my @ctxs;
+% for my $context (sort @contexts) {
+%   my %tmp_hash;
+%   $tmp_hash{'name'} = $context;
+%   $tmp_hash{'uri'} = url_for('lexicon_terms', { context => $context, lexicon_identifier => $lexicon->identifier })->to_string;
+%   $tmp_hash{'href'} = url_for('lexicon_terms', { context => $context, lexicon_identifier => $lexicon->identifier })->clone->to_abs->to_string;
+%   push @ctxs, \%tmp_hash;
+% }
+<%== Dump({
+    #cited_by        => $lexicon->cited_by,
+    href            => obj_uri_for($lexicon)->clone->to_abs->to_string,
+    uri             => obj_uri_for($lexicon)->to_string,
+    url             => $lexicon->url,
+    identifier      => $lexicon->identifier,
+    description     => $lexicon->description,
+    contexts        => \@ctxs
+   });
+%>
